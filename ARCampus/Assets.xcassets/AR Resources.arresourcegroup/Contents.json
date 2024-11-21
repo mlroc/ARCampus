@@ -1,0 +1,14 @@
+{
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "resources" : [
+    {
+      "filename" : "keyboard.arreferenceimage"
+    },
+    {
+      "filename" : "rr_2.arreferenceimage"
+    }
+  ]
+}
