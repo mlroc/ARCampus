@@ -11,7 +11,7 @@ import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
 
-    @IBOutlet var sceneView: ARSCNView! // connects view from SceneKit from storyboard rendering AR experience
+    @IBOutlet var sceneView: ARSCNView!
     
     @IBAction func resetButton(_ sender: Any) {
         sceneView.session.pause()
@@ -19,63 +19,87 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: nil)!
         configuration.detectionImages = referenceImages
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+        DispatchQueue.main.async {
+            self.label?.isHidden = true
+            self.infoLabel?.isHidden = true
+        }
     }
+    
+    var label: UILabel!
+    var infoLabel: UILabel!
+    var detectedText: String?
+    
     // set sceneView to self to respond to events
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Set the view's delegate
         sceneView.delegate = self
-        
-        // Show statistics such as fps and timing information
         sceneView.showsStatistics = false
-        
-        // Create a empty scene
         sceneView.scene = SCNScene()
     }
+    
+    func setupFlatText() {
+        label = UILabel()
+        label.text = "This is rush rhees"
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        label.layer.cornerRadius = 10
+        label.layer.masksToBounds = true
+        label.isHidden = true
+
+        label.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(label)
+
+        // constraints
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            label.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            label.widthAnchor.constraint(equalToConstant: 300),
+            label.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        // UI info label
+        infoLabel = UILabel()
+        infoLabel.text = "Information about the image will appear here."
+                infoLabel.textColor = .white
+                infoLabel.textAlignment = .center
+                infoLabel.font = UIFont.systemFont(ofSize: 18)
+                infoLabel.numberOfLines = 0 // Allow multiple lines for paragraph
+                infoLabel.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+                infoLabel.layer.cornerRadius = 10
+                infoLabel.layer.masksToBounds = true
+                infoLabel.isHidden = true
+                
+                infoLabel.translatesAutoresizingMaskIntoConstraints = false
+                view.addSubview(infoLabel)
+
+                // Constraints for the second label (info paragraph)
+                NSLayoutConstraint.activate([
+                    infoLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                    infoLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                    infoLabel.widthAnchor.constraint(equalToConstant: 300),
+                    infoLabel.heightAnchor.constraint(equalToConstant: 200)
+                ])
+    }
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Create a session configuration
-        // 6-DOF tracking
         let configuration = ARWorldTrackingConfiguration()
-        
-        
-        
-        
         // detect image from "AR Resource" group
         // ARKit looks for reference image
         let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: nil)!
         configuration.detectionImages = referenceImages
-        //
-        
-        
-        
-        
-
-        // Run the view's session
         sceneView.session.run(configuration)
     }
     
     // pause AR session when view disappears
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        // Pause the view's session
         sceneView.session.pause()
     }
-
-    // MARK: - ARSCNViewDelegate
-    
-/*
-    // Override to create and configure nodes for anchors added to the view's session.
-    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-        let node = SCNNode()
-     
-        return node
-    }
-*/
     
     // called when ARKit detects image
     // cast anchor to imageanchor to access detected imageproperties
@@ -94,19 +118,43 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         planeNode.eulerAngles.x = -Float.pi / 2
         node.addChildNode(planeNode)
         
-        // adding text
-        let text = SCNText(string: "This is a keyboard", extrusionDepth: 0.01)
-        text.font = UIFont.systemFont(ofSize: 50)
-        text.firstMaterial?.diffuse.contents = UIColor.white
-        let textNode = SCNNode(geometry: text)
-        
-        textNode.scale = SCNVector3(0.01, 0.01, 0.01)
-        textNode.position = SCNVector3(0, 0.1, 0)
-                          
-
-        node.addChildNode(textNode)
-    
+        DispatchQueue.main.async {
+            if self.label == nil || self.infoLabel == nil {
+                self.setupFlatText()
+            }
+//            self.label.text = "Detected: \(imageAnchor.referenceImage.name ?? "Image")"
+            
+            switch referenceImage.name {
+            case "rr_2":
+                self.label.text = "Detected: Rush Rhees"
+                self.infoLabel.text = "Located on the River Campus and named after Rush Rhees, former president of the University of Rochester (3rd president). With a distinctive tower that stands 186 feet (57m) tall and houses the Hopeman Memorial Carillon, the largest musical instrument in Rochester. Some key features include the Art and Music Library, Department of Rare Books, Special Collections & Preservation, Gleason Library, Rossell Hope Robbins Library for medieval studies, and University Archives."
+            case "keyboard":
+                self.label.text = "Detected: Image 2"
+                self.infoLabel.text = "This is a detailed description of Image 2. Here you can explain the significance or details about the second image."
+            case "image3":
+                self.label.text = "Detected: Image 3"
+                self.infoLabel.text = "This is a detailed description of Image 3. A paragraph of information can go here, giving the user more context."
+            default:
+                self.label.text = "Unknown Image"
+                self.infoLabel.text = "This image does not match any known references."
+            }
+            
+            self.label.isHidden = false
+            self.infoLabel.isHidden = false
+        }
     }
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     // Error handling
