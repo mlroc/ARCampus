@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "keyboard.png",
+      "filename" : "rr_1.jpeg",
       "idiom" : "universal"
     }
   ],
@@ -10,6 +10,6 @@
     "version" : 1
   },
   "properties" : {
-    "width" : 11
+    "width" : 15
   }
 }
