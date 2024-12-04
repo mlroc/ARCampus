@@ -5,7 +5,31 @@
   },
   "resources" : [
     {
+      "filename" : "carlson.arreferenceimage"
+    },
+    {
+      "filename" : "disinfector.arreferenceimage"
+    },
+    {
+      "filename" : "plastic_stand.arreferenceimage"
+    },
+    {
       "filename" : "rr_1.arreferenceimage"
+    },
+    {
+      "filename" : "studiox_b1.arreferenceimage"
+    },
+    {
+      "filename" : "studiox_b2.arreferenceimage"
+    },
+    {
+      "filename" : "studiox_b3.arreferenceimage"
+    },
+    {
+      "filename" : "studiox_b5.arreferenceimage"
+    },
+    {
+      "filename" : "StudioX.arreferenceimage"
     }
   ]
 }

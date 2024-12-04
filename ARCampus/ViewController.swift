@@ -145,6 +145,25 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             case "rr_1":
                 self.label.text = "Detected: Rush Rhees"
                 self.infoLabel.text = "Located on the River Campus and named after Rush Rhees, former president of the University of Rochester (3rd president). With a distinctive tower that stands 186 feet (57m) tall and houses the Hopeman Memorial Carillon, the largest musical instrument in Rochester. Some key features include the Art and Music Library, Department of Rare Books, Special Collections & Preservation, Gleason Library, Rossell Hope Robbins Library for medieval studies, and University Archives."
+            case "carlson":
+                self.label.text = "Detected: Carlson Painting"
+                self.infoLabel.text = "Painting of Chester Carlson. A physicist, lawyer, inventor, and humanitarian. He was a generous benefactor of this University he invented an electrostatic printing process called xerography -- a process that not only solved a major problem in office-copying, but radically transformed the entire field of communication."
+            case "StudioX":
+                self.label.text = "Detected: Studio X"
+                self.infoLabel.text = "Studio X is the University of Rochester's central hub for extended reality (XR), offering a collaborative space, advanced technology, expert guidance, and a thriving community. Located on the first floor of Carlson Library, our 3,000 square foot lab provides access to a wide range of XR equipment for students, faculty, and staff. We host skill-building workshops and personalized consultations to support XR content creation and development. Studio X also connects over 50 XR researchers across various disciplines, fostering collaboration and innovation in XR technologies at UR."
+            case "studiox_b1":
+                self.label.text = "Detected: Studio X Board"
+                self.infoLabel.text = "Board located in Studio X."
+            case "studiox_b2":
+                self.label.text = "Detected: Studio X Board"
+                self.infoLabel.text = "Board located in Studio X."
+            case "studiox_b3":
+                self.label.text = "Detected: Studio X Board"
+                self.infoLabel.text = "Board located in Studio X."
+            case "studiox_b5":
+                self.label.text = "Detected: Studio X Board"
+                self.infoLabel.text = "Board located in Studio X."
+            
                 
 //            case "":
 //                self.label.text =
