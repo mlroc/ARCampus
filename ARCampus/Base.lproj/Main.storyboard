@@ -33,6 +33,15 @@
                                     <action selector="resetButton:" destination="BV1-FR-VrT" eventType="touchUpInside" id="S7J-tT-Rm9"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Bv-MP-4ut">
+                                <rect key="frame" x="14" y="63" width="79" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="History"/>
+                                <connections>
+                                    <action selector="showHistory:" destination="BV1-FR-VrT" eventType="touchUpInside" id="sNL-qp-1lN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fQZ-KI-GVf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>

@@ -8,16 +8,24 @@
 import UIKit
 import SceneKit
 import ARKit
+import SwiftUI
 
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     // UI Elements
     @IBOutlet weak var helpButton: UIImageView!
     @IBOutlet var sceneView: ARSCNView!
-
+    @IBAction func showHistory(_ sender: Any) {
+        let history = UIHostingController(rootView: HistoryViewController(scannedHistory: self.scannedHistory))
+        self.present(history, animated: true, completion: nil)
+    }
+    
     var label: UILabel!
     var infoLabel: UILabel!
+    var scannedHistory: [(name: String, date: Date, detailText: String)] = []
 
+
+    
     
     // Lifecycle Methodsdo i
     override func viewDidLoad() {
@@ -145,24 +153,31 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             case "rr_1":
                 self.label.text = "Detected: Rush Rhees"
                 self.infoLabel.text = "Located on the River Campus and named after Rush Rhees, former president of the University of Rochester (3rd president). With a distinctive tower that stands 186 feet (57m) tall and houses the Hopeman Memorial Carillon, the largest musical instrument in Rochester. Some key features include the Art and Music Library, Department of Rare Books, Special Collections & Preservation, Gleason Library, Rossell Hope Robbins Library for medieval studies, and University Archives."
+                self.scannedHistory.append(("Rush Rhees", Date(), self.infoLabel.text ?? ""))
             case "carlson":
                 self.label.text = "Detected: Carlson Painting"
                 self.infoLabel.text = "Painting of Chester Carlson. A physicist, lawyer, inventor, and humanitarian. He was a generous benefactor of this University he invented an electrostatic printing process called xerography -- a process that not only solved a major problem in office-copying, but radically transformed the entire field of communication."
+                self.scannedHistory.append(("Carlson", Date(), self.infoLabel.text ?? ""))
             case "StudioX":
                 self.label.text = "Detected: Studio X"
                 self.infoLabel.text = "Studio X is the University of Rochester's central hub for extended reality (XR), offering a collaborative space, advanced technology, expert guidance, and a thriving community. Located on the first floor of Carlson Library, our 3,000 square foot lab provides access to a wide range of XR equipment for students, faculty, and staff. We host skill-building workshops and personalized consultations to support XR content creation and development. Studio X also connects over 50 XR researchers across various disciplines, fostering collaboration and innovation in XR technologies at UR."
+                self.scannedHistory.append(("Studio X", Date(), self.infoLabel.text ?? ""))
             case "studiox_b1":
                 self.label.text = "Detected: Studio X Board"
                 self.infoLabel.text = "Board located in Studio X."
+                self.scannedHistory.append(("Studio X Board", Date(), self.infoLabel.text ?? ""))
             case "studiox_b2":
                 self.label.text = "Detected: Studio X Board"
                 self.infoLabel.text = "Board located in Studio X."
+                self.scannedHistory.append(("Studio X Board 2", Date(), self.infoLabel.text ?? ""))
             case "studiox_b3":
                 self.label.text = "Detected: Studio X Board"
                 self.infoLabel.text = "Board located in Studio X."
+                self.scannedHistory.append(("Studio X Board 3", Date(), self.infoLabel.text ?? ""))
             case "studiox_b5":
                 self.label.text = "Detected: Studio X Board"
                 self.infoLabel.text = "Board located in Studio X."
+                self.scannedHistory.append(("Studio X Board 4", Date(), self.infoLabel.text ?? ""))
             
                 
 //            case "":
@@ -188,6 +203,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
+    
+    @objc func showHistory() {
+        let history = UIHostingController(rootView: HistoryViewController(scannedHistory: scannedHistory))
+        let navController = UINavigationController(rootViewController: history)
+        present(navController, animated: true, completion: nil)
+    }
+
+
+    
     
     
     
