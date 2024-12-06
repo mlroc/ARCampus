@@ -20,14 +20,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         self.present(history, animated: true, completion: nil)
     }
     
+    // Saved variables
     var label: UILabel!
     var infoLabel: UILabel!
     var scannedHistory: [(name: String, date: Date, detailText: String)] = []
-
-
     
-    
-    // Lifecycle Methodsdo i
+    // Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         sceneView.delegate = self
@@ -44,7 +42,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         super.viewWillDisappear(animated)
         sceneView.session.pause()
     }
-    
     
     // UI Setup
     private func setupHelpButton() {
@@ -76,7 +73,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             label.widthAnchor.constraint(equalToConstant: 300),
             label.heightAnchor.constraint(equalToConstant: 50)
         ])
-        
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
@@ -87,7 +83,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
              scrollView.widthAnchor.constraint(equalToConstant: 300),
              scrollView.heightAnchor.constraint(equalToConstant: 200)
          ])
-        
         infoLabel = createLabel(fontSize: 18, numberOfLines: 0)
         scrollView.addSubview(infoLabel)
         NSLayoutConstraint.activate([
@@ -99,20 +94,17 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         ])
     }
     
-    
     // AR Session
-    
     private func runARSession(reset: Bool = false) {
         let configuration = ARWorldTrackingConfiguration()
         if let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: nil) {
             configuration.detectionImages = referenceImages
         }
-        if reset {
+        if reset{
             sceneView.session.run(configuration)
         }
         sceneView.session.run(configuration, options: reset ? [.resetTracking, .removeExistingAnchors] : [])
     }
-    
     
     @IBAction func resetButton(_ sender: Any) {
         sceneView.session.pause()
@@ -122,7 +114,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             self.infoLabel?.isHidden = true
         }
     }
-
 
     // AR Methods
     func renderer(_ renderer: any SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
@@ -149,6 +140,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             // self.label.text = "Detected: \(imageAnchor.referenceImage.name ?? "Image")"
             
+            // Text can be further curated to make it more relevant for users
             switch referenceImage.name {
             case "rr_1":
                 self.label.text = "Detected: Rush Rhees"
@@ -163,21 +155,25 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 self.infoLabel.text = "Studio X is the University of Rochester's central hub for extended reality (XR), offering a collaborative space, advanced technology, expert guidance, and a thriving community. Located on the first floor of Carlson Library, our 3,000 square foot lab provides access to a wide range of XR equipment for students, faculty, and staff. We host skill-building workshops and personalized consultations to support XR content creation and development. Studio X also connects over 50 XR researchers across various disciplines, fostering collaboration and innovation in XR technologies at UR."
                 self.scannedHistory.append(("Studio X", Date(), self.infoLabel.text ?? ""))
             case "studiox_b1":
-                self.label.text = "Detected: Studio X Board"
-                self.infoLabel.text = "Board located in Studio X."
+                self.label.text = "Detected: Studio X Welcome Board"
+                self.infoLabel.text = "Welcome Board located in Studio X."
                 self.scannedHistory.append(("Studio X Board", Date(), self.infoLabel.text ?? ""))
             case "studiox_b2":
                 self.label.text = "Detected: Studio X Board"
-                self.infoLabel.text = "Board located in Studio X."
+                self.infoLabel.text = "Reminder Board located in Studio X."
                 self.scannedHistory.append(("Studio X Board 2", Date(), self.infoLabel.text ?? ""))
             case "studiox_b3":
-                self.label.text = "Detected: Studio X Board"
+                self.label.text = "Detected: UV Reminder Board"
                 self.infoLabel.text = "Board located in Studio X."
-                self.scannedHistory.append(("Studio X Board 3", Date(), self.infoLabel.text ?? ""))
+                self.scannedHistory.append(("UV Reminder Board", Date(), self.infoLabel.text ?? ""))
             case "studiox_b5":
-                self.label.text = "Detected: Studio X Board"
-                self.infoLabel.text = "Board located in Studio X."
-                self.scannedHistory.append(("Studio X Board 4", Date(), self.infoLabel.text ?? ""))
+                self.label.text = "Detected: Studio X Help Board"
+                self.infoLabel.text = "Help Board located in Studio X."
+                self.scannedHistory.append(("Studio X Help Board", Date(), self.infoLabel.text ?? ""))
+            case "poster":
+                self.label.text = "Detected: Amazing Poster Board"
+                self.infoLabel.text = "Poster Board located in Studio X. Perhaps the best thing you have ever seen"
+                self.scannedHistory.append(("Amazing Poster Board", Date(), self.infoLabel.text ?? "")) 
             
                 
 //            case "":
@@ -200,6 +196,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             message: "Point your camera at desired landmark or object. Press reset if new landmark isn't refreshing.",
             preferredStyle: .alert
         )
+        
         alert.addAction(UIAlertAction(title: "Close", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
@@ -210,20 +207,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         present(navController, animated: true, completion: nil)
     }
 
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     // Error handling
     func session(_ session: ARSession, didFailWithError error: Error) {

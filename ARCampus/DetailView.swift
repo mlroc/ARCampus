@@ -23,3 +23,4 @@ struct DetailView: View {
         .navigationTitle("Detail")
     }
 }
+
